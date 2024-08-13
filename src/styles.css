@@ -83,7 +83,7 @@ main > button {
     height: 35px;
     border: none;
     border-radius: 4px;
-    /* margin-top: 25px; */
+    text-wrap: nowrap;
     cursor: pointer;
 }
 

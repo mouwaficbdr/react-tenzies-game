@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { nanoid } from "nanoid"
 import Die from "./components/Die"
+import Confettis from "./components/Confettis"
 
 export default function App() {
 
@@ -11,7 +12,9 @@ export default function App() {
     const areAllHeld = dice.every(die => die.isHeld)
     const areAllEqual = dice.every(die => die.value === dice[0].value)
     if (areAllHeld && areAllEqual) {
-      console.log("You won!")
+      setTenzies(true)
+    } else {
+      setTenzies(false)
     }
   }, [dice])
 
@@ -55,6 +58,10 @@ export default function App() {
     );
   }
 
+  function newGame() {
+      setDice(allNewDice())
+  }
+
   const diceElements = dice.map((die) => {
 
     return <Die key={die.id} value={die.value} isHeld={die.isHeld} holdDice={holdDice} id={die.id}/>;
@@ -69,7 +76,8 @@ export default function App() {
       <div className="dice-container">
         {diceElements}
       </div>
-      <button type="button" onClick={rollDice}>Roll</button>
+      <button type="button" onClick={tenzies ? newGame : rollDice }>{tenzies ? "New Game" : "Roll"}</button>
+      {tenzies && <Confettis/>}
     </main>
   )
 }
