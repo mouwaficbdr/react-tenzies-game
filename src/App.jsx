@@ -2,21 +2,32 @@ import { useState, useEffect } from "react"
 import { nanoid } from "nanoid"
 import Die from "./components/Die"
 import Confettis from "./components/Confettis"
+import Score from "./components/Score"
 
 export default function App() {
 
   const [dice, setDice] = useState(allNewDice())
   const [tenzies, setTenzies] = useState(false)
+  const [showScore, setShowScore] = useState(true)
+  const [rollCount, setRollCount]  = useState(0)
+  const [time, setTime] = useState(0)
+  const [bestTime, setBestTime] = useState(localStorage.getItem(""))
+
+
 
   useEffect(() => {
     const areAllHeld = dice.every(die => die.isHeld)
     const areAllEqual = dice.every(die => die.value === dice[0].value)
     if (areAllHeld && areAllEqual) {
       setTenzies(true)
-    } else {
-      setTenzies(false)
     }
   }, [dice])
+
+  useEffect(() => {
+    if (tenzies) {
+      setTime(prevTime => ((Date.now() - prevTime) / 1000).toFixed(2))
+    }
+  }, [tenzies])
 
   function generateNewDie() {
     const randomNumber = Math.floor(Math.random() * 6) + 1;
@@ -43,6 +54,7 @@ export default function App() {
         generateNewDie()
       )
     )
+    setRollCount(prevRollCount => prevRollCount + 1)
   }
 
   function holdDice(id) {
@@ -59,7 +71,16 @@ export default function App() {
   }
 
   function newGame() {
+      setTenzies(false)
       setDice(allNewDice())
+      setShowScore(true)
+      setRollCount(0)
+      setTime(Date.now())
+  }
+
+  function dismissScore() {
+    setShowScore(false)
+    console.log("Dismissed")
   }
 
   const diceElements = dice.map((die) => {
@@ -77,7 +98,8 @@ export default function App() {
         {diceElements}
       </div>
       <button type="button" onClick={tenzies ? newGame : rollDice }>{tenzies ? "New Game" : "Roll"}</button>
-      {tenzies && <Confettis/>}
+      {tenzies && <Confettis />}
+      {tenzies && showScore && <Score dismissScore={dismissScore} rolls={rollCount} time={time} />}
     </main>
   )
 }

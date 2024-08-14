@@ -12,6 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     font-family: "Karla", sans-serif;
+    position: relative;
 }
 
 main{
@@ -67,6 +68,7 @@ main{
     cursor: pointer;
 }
 
+
 main > button {
     background-color: #5035FF;
     box-shadow: 0px 3.2px 7.68px 0px #0000002E;
@@ -101,3 +103,47 @@ main > button:active{
     justify-content: center;
     align-items: center;
 }
+
+/* SCORE */
+
+.score{
+    position: absolute;
+    z-index: 1;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0b2434dd;
+    border-radius: 10px;
+}
+
+.score--container{
+    text-align: center;
+    background-color: transparent;
+}
+
+.score--container > h3{
+    text-transform: uppercase;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.score--container > p{
+    margin-bottom: 15px;
+    font-family: "Karla", sans-serif;
+    font-weight: 700;
+    color: white;
+    font-size: 20px;
+}
+
+.dismiss-score{
+    position: relative;
+    top: -130px;
+    right: -230px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+
+
