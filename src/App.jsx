@@ -10,8 +10,11 @@ export default function App() {
   const [tenzies, setTenzies] = useState(false)
   const [showScore, setShowScore] = useState(true)
   const [rollCount, setRollCount]  = useState(0)
-  const [time, setTime] = useState(0)
-  const [bestTime, setBestTime] = useState(localStorage.getItem(""))
+  const [time, setTime] = useState(() => Date.now())
+  const [bestTime, setBestTime] = useState(() => {
+    const savedTime = localStorage.getItem("bestTime");
+    return savedTime ? parseFloat(savedTime) : 999999;
+  })
 
 
 
@@ -25,9 +28,13 @@ export default function App() {
 
   useEffect(() => {
     if (tenzies) {
-      setTime(prevTime => ((Date.now() - prevTime) / 1000).toFixed(2))
+      const newTime = ((Date.now() - time) / 1000).toFixed(2); // Calcul du temps écoulé en secondes
+      if (bestTime > newTime) {
+        setBestTime(newTime); // Met à jour le meilleur temps si le nouveau temps est meilleur
+        localStorage.setItem('bestTime', newTime); // Sauvegarde le meilleur temps
+      }
     }
-  }, [tenzies])
+  }, [tenzies, time, bestTime]) // Vérifie que les dépendances sont correctes
 
   function generateNewDie() {
     const randomNumber = Math.floor(Math.random() * 6) + 1;
@@ -75,12 +82,11 @@ export default function App() {
       setDice(allNewDice())
       setShowScore(true)
       setRollCount(0)
-      setTime(Date.now())
+      setTime(Date.now()); // Gardez le timestamp pour le calcul ultérieur
   }
 
   function dismissScore() {
     setShowScore(false)
-    console.log("Dismissed")
   }
 
   const diceElements = dice.map((die) => {
@@ -92,14 +98,24 @@ export default function App() {
     <main>
       <div className="main--text">
         <h1 className="title">Tenzies</h1>
-        <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
+        <p className="instructions">
+          Roll until all dice are the same. Click each die to freeze it at its
+          current value between rolls.
+        </p>
       </div>
-      <div className="dice-container">
-        {diceElements}
-      </div>
-      <button type="button" onClick={tenzies ? newGame : rollDice }>{tenzies ? "New Game" : "Roll"}</button>
+      <div className="dice-container">{diceElements}</div>
+      <button type="button" onClick={tenzies ? newGame : rollDice}>
+        {tenzies ? 'New Game' : 'Roll'}
+      </button>
       {tenzies && <Confettis />}
-      {tenzies && showScore && <Score dismissScore={dismissScore} rolls={rollCount} time={time} />}
+      {tenzies && showScore && (
+        <Score
+          dismissScore={dismissScore}
+          rolls={rollCount}
+          time={((Date.now() - time) / 1000).toFixed(2)}
+          bestTime={bestTime}
+        />
+      )}
     </main>
-  )
+  );
 }

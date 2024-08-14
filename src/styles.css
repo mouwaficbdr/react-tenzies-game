@@ -123,7 +123,7 @@ main > button:active{
     background-color: transparent;
 }
 
-.score--container > h3{
+.score--container > h2{
     text-transform: uppercase;
     color: white;
     margin-bottom: 20px;
@@ -138,12 +138,18 @@ main > button:active{
 }
 
 .dismiss-score{
-    position: relative;
-    top: -130px;
-    right: -230px;
+    position: absolute;
+    top: 5px;
+    right: 6px;
     cursor: pointer;
     font-size: 12px;
+    background-color: transparent;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    border:none;
 }
 
-
-
+.remove-icon{
+    width: 100%;
+}
