@@ -30,4 +30,4 @@ Tenzies is built using React, with a focus on creating a smooth and responsive u
 Contributing
 ------------
 
-If you're interested in contributing to Tenzies, please fork the repository and submit a pull request. We welcome any improvements or new features that can enhance the gameplay experience.
+If you're interested in contributing to Tenzies, please fork the repository and submit a pull request.
