@@ -22,6 +22,8 @@ How to Play
 4. The game will automatically end and display your score when you win.
 5. Click the "New Game" button to start a new game.
 
+You can try it here: https://tenzies-game-blush-chi.vercel.app/
+
 Technical Details
 ----------------
 
